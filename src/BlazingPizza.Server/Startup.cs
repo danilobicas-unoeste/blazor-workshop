@@ -25,7 +25,15 @@ namespace BlazingPizza.Server
             services.AddDbContext<PizzaStoreContext>(options =>
                 options.UseSqlite("Data Source=pizza.db"));
 
-            services.AddDefaultIdentity<PizzaStoreUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //Microsoft.AspNetCore.Identity.IdentityOptions options = new Microsoft.AspNetCore.Identity.IdentityOptions();
+            
+            services.AddDefaultIdentity<PizzaStoreUser>(options=>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<PizzaStoreContext>();
 
             services.AddIdentityServer()

@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 
 namespace BlazingPizza.Client
 {
-    public class OrdersClient
+    public class CashBackClient
     {
         private readonly HttpClient httpClient;
 
-        public OrdersClient(HttpClient httpClient)
+        public CashBackClient(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
+
+        public async Task<IEnumerable<CashBack>> GetCashBacks() =>
+            await httpClient.GetFromJsonAsync<IEnumerable<CashBack>>("cashback");
 
         public async Task<IEnumerable<OrderWithStatus>> GetOrders() =>
             await httpClient.GetFromJsonAsync<IEnumerable<OrderWithStatus>>("orders");

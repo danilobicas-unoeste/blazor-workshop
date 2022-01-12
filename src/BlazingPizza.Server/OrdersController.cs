@@ -44,6 +44,7 @@ namespace BlazingPizza.Server
                 .Where(o => o.OrderId == orderId)
                 .Where(o => o.UserId == GetUserId())
                 .Include(o => o.DeliveryLocation)
+                .Include(o=>o.CashBack)
                 .Include(o => o.Pizzas).ThenInclude(p => p.Special)
                 .Include(o => o.Pizzas).ThenInclude(p => p.Toppings).ThenInclude(t => t.Topping)
                 .SingleOrDefaultAsync();

@@ -23,6 +23,8 @@ namespace BlazingPizza.Server
 
         public DbSet<NotificationSubscription> NotificationSubscriptions { get; set; }
 
+        public DbSet<CashBack> CashBacks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -31,7 +33,8 @@ namespace BlazingPizza.Server
             modelBuilder.Entity<PizzaTopping>().HasKey(pst => new { pst.PizzaId, pst.ToppingId });
             modelBuilder.Entity<PizzaTopping>().HasOne<Pizza>().WithMany(ps => ps.Toppings);
             modelBuilder.Entity<PizzaTopping>().HasOne(pst => pst.Topping).WithMany();
-
+            //modelBuilder.Entity<CashBack>().HasKey(c => c.Id);
+            //modelBuilder.Entity<Order>().HasOne<CashBack>();
             // Inline the Lat-Long pairs in Order rather than having a FK to another table
             modelBuilder.Entity<Order>().OwnsOne(o => o.DeliveryLocation);
         }

@@ -1,0 +1,41 @@
+﻿@page "/cashbacks"
+@attribute [Authorize]
+@inject CashBackClient CashBackClient
+
+<div class="main">
+    <TemplatedList Loader="@LoadCashBacks" ListGroupClass="orders-list">
+        <Loading>Loading...</Loading>
+        <Empty>
+            <h2>Nenhum Cashback</h2>
+            <a class="btn btn-success" href="">Que tal pedir uma pizza?</a>
+        </Empty>
+        <Item Context="item">
+            <div class="col">
+                <h5>@item.OrderId.ToString()</h5>
+                Total price:
+                <strong>£@item.GetFormattedTotalValue()</strong>
+            </div>
+            <div class="col flex-grow-0">
+                <a href="myorders/@item.OrderId" class="btn btn-success">
+                    Track &gt;
+                </a>
+            </div>
+        </Item>
+    </TemplatedList>
+</div>
+
+@code {
+    async Task<IEnumerable<BlazingPizza.CashBack>> LoadCashBacks()
+    {
+        var cashs = Enumerable.Empty<BlazingPizza.CashBack>();
+        try
+        {
+            cashs = await CashBackClient.GetCashBacks();
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        return cashs;
+    }
+}
